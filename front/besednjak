@@ -1,0 +1,62 @@
+Recept
+– Struktura podatkov, ki predstavlja kulinarični postopek. Vsebuje naslov, opis, seznam sestavin, čas priprave, postopek in avtorja.
+
+Sestavina
+– Element recepta. Predstavlja živilo ali komponento, ki jo je treba uporabiti pri pripravi jedi.
+
+Uporabnik
+– Oseba, ki dostopa do spletne strani. Lahko je registriran ali neregistriran.
+
+Registriran uporabnik
+– Uporabnik, ki si je ustvaril račun in lahko dodaja, ureja ali ocenjuje recepte.
+
+Administrator
+– Posebna uporabniška vloga z dostopom do nadzorne plošče, moderiranja vsebine, urejanja uporabnikov in brisanja receptov.
+
+Receptna stran
+– Podstran, ki prikazuje en recept, vse njegove podatke in morebitne interakcije (ocenjevanje, komentarji).
+
+Dodajanje recepta
+– Funkcionalnost, ki omogoča registriranim uporabnikom vnos novega recepta v sistem.
+
+Urejanje recepta
+– Funkcionalnost, ki omogoča posodabljanje že obstoječih receptov (sprememba sestavin, opisa itd.).
+
+Brisanje recepta
+– Postopek odstranitve recepta iz baze. Lahko ga izvede avtor ali administrator.
+
+Ocenjevanje
+– Funkcija, s katero uporabniki ocenijo recept (npr. z zvezdicami ali številom točk).
+
+Komentar
+– Besedilno sporočilo pod receptom, ki ga odda registriran uporabnik.
+
+Uporabniški račun
+– Zapis v sistemu, ki vsebuje uporabnikove podatke: ime, email, geslo, vlogo itd.
+
+Avtentikacija
+– Proces preverjanja uporabnikove identitete (prijava v sistem).
+
+Avtorizacija
+– Preverjanje, ali ima uporabnik dovoljene pravice za posamezna dejanja (npr. urejanje recepta).
+
+Baza podatkov
+– Sistem, kjer se shranjujejo podatki o receptih, uporabnikih, ocenah in komentarjih.
+
+UI (Uporabniški vmesnik)
+– Vizualna plast spletne strani, prek katere uporabnik upravlja z vsebino.
+
+Backend
+– Strežniški del aplikacije, ki obdeluje podatke, logiko, zahteve in se povezuje z bazo.
+
+Frontend
+– Del spletne aplikacije, ki ga vidi uporabnik (HTML, CSS, JS).
+
+DPU (Diagram poteka uporabe)
+– Diagram, ki prikazuje potek aktivnosti, interakcij in tok podatkov med uporabnikom in sistemom.
+
+API
+– Vmesnik za komunikacijo med frontend in backend delom aplikacije, še posebej pri dinamičnem nalaganju receptov.
+
+Seja (Session)
+– Podatki, ki se shranijo na strežniku/odjemalcu, da sistem ve, kateri uporabnik je prijavljen.
