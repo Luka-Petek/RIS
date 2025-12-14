@@ -1,0 +1,76 @@
+
+Opis razrednega diagrama
+Domenski razredi
+
+User
+Predstavlja uporabnika sistema. Hrani uporabniško ime, e-poštni naslov, zgoščeno geslo in prikazno ime.
+Ključna metoda:
+
+canEdit(recipe: Recipe) – preveri, ali je uporabnik avtor danega recepta in ga sme urejati/brisati.
+
+Recipe
+Predstavlja recept, ki ga uporabnik ustvari. Vsebuje naslov, opis, sestavine, čas priprave, navodila ter čas nastanka in zadnje posodobitve.
+Ključni metodi:
+
+updateDetails(...) – posodobi podatke recepta.
+
+getAverageRating() – izračuna povprečno oceno na podlagi povezanih ocen (Rating).
+
+Rating
+Predstavlja oceno recepta (npr. 1–5) in komentar, ki ga poda uporabnik. Vsaka ocena je povezana z enim receptom in enim uporabnikom.
+
+Relacije med razredi:
+
+en User je lahko avtor več Recipe (relacija 1 → *),
+
+en User lahko poda več Rating,
+
+en Recipe ima lahko več Rating, iz katerih se računa povprečna ocena.
+
+Servisni razredi (poslovna logika)
+
+UserService
+Vsebuje logiko za delo z uporabniki: registracijo, prijavo in pridobivanje uporabnika po identifikatorju.
+Ključne metode: register, authenticate, findById.
+
+RecipeService
+Vsebuje glavno logiko za delo z recepti: ustvarjanje recepta, posodabljanje, brisanje, pridobivanje posameznega recepta in iskanje receptov po nazivu ali sestavinah. Pri spremembah preverja, ali je trenutni uporabnik avtor recepta.
+Ključne metode: createRecipe, updateRecipe, deleteRecipe, getRecipe, listRecipes.
+
+RatingService
+Skrbi za dodajanje ocen, pridobivanje vseh ocen določenega recepta in izračun povprečne ocene.
+Ključne metode: addRating, getRatingsForRecipe, getAverageRating.
+
+Servisi predstavljajo osrednjo poslovno logiko in sodelujejo z domenskimi razredi ter repositoryji.
+
+Repository razredi (dostop do podatkov)
+
+UserRepository, RecipeRepository, RatingRepository
+So JPA vmesniki, ki razširjajo generični JpaRepository in zagotavljajo dostop do podatkovne baze.
+Primeri pomembnih metod:
+
+findByUsername v UserRepository,
+
+findByTitleContainingIgnoreCase in findByIngredientsContainingIgnoreCase v RecipeRepository,
+
+findByRecipeId v RatingRepository.
+
+Ti razredi so odgovorni za iskanje, shranjevanje in brisanje entitet v podatkovni bazi.
+
+Kontrolerji (REST API)
+
+AuthController
+Nudi končne točke za registracijo, prijavo in pridobivanje podatkov o trenutno prijavljenem uporabniku. Kliče metode UserService.
+
+RecipeController
+REST vmesnik za delo z recepti. Omogoča pridobivanje vseh receptov (z možnostjo iskanja), pridobivanje posameznega recepta, dodajanje, posodabljanje in brisanje receptov. Kliče metode RecipeService.
+
+RatingController
+Nudi API za dodajanje ocen in pridobivanje vseh ocen za posamezen recept. Kliče metode RatingService.
+
+Kontrolerji sprejemajo HTTP zahteve, preverijo vhodne podatke ter delegirajo izvedbo na ustrezne servise.
+
+Glavni razred aplikacije
+
+FullstackBackendApplication
+Vsebuje metodo main, ki zažene Spring Boot aplikacijo in inicializira vse zgoraj opisane razrede. Predstavlja vstopno točko backend dela sistema.
