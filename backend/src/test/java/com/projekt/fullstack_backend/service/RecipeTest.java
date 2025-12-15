@@ -64,6 +64,6 @@ class RecipeTest {
     assertNotNull(recipe.getIngredients());
     assertFalse(recipe.getIngredients().isBlank());
     assertNotNull(recipe.getInstructions());
-}
+   }
 
 }
