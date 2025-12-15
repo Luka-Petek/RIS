@@ -85,4 +85,22 @@ class RecipeTest {
         assertNull(recipe.getInstructions());
     }
 
+    @Test
+    @DisplayName("Nastavitev negativnega ID-ja za preverjanje Long polja")
+    void testSetNegativeId() {
+        Long invalidId = -5L;
+
+        recipe.setId(invalidId);
+
+        assertEquals(invalidId, recipe.getId());
+        assertTrue(recipe.getId() < 0, "ID ne sme biti negativen ?!");
+    }
+
+    @Test
+    @DisplayName("Preverjanje, če so navodila NULL")
+    void testInstructionsSetToNull() {
+        recipe.setInstructions(null);
+        assertNull(recipe.getInstructions());
+    }
+
 }
