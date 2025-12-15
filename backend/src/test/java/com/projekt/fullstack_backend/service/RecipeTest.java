@@ -3,6 +3,8 @@ package com.projekt.fullstack_backend.service;
 import com.projekt.fullstack_backend.model.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,5 +35,20 @@ class RecipeTest {
     void testRecipeNoIntructions() {
         recipe.setInstructions(null);
         assertNull(recipe.getInstructions());
+    }
+
+    @Test
+    @DisplayName("Instructions morajo biti nastavljene in ne smejo biti prazne (pozitiven scenarij)")
+    void testInstructionsNotBlank() {
+        assertNotNull(recipe.getInstructions());
+        assertFalse(recipe.getInstructions().isBlank());
+    }
+
+    @Test
+    @DisplayName("Če nastavimo name na prazen niz, mora getter vrniti prazen niz (negativen/vnosni scenarij)")
+    void testBlankName() {
+        recipe.setName("");
+        assertEquals("", recipe.getName());
+        assertTrue(recipe.getName().isEmpty());
     }
 }
