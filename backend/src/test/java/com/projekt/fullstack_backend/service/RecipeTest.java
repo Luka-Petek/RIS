@@ -15,7 +15,7 @@ class RecipeTest {
     @BeforeEach
     void setUp() {
         recipe = new Recipe();
-        recipe.setName("Pancakes");
+        recipe.setName("");
         recipe.setIngredients("Flour, eggs, milk, sugar, butter, pinch of salt.");
         recipe.setInstructions("Mix the batter, heat a pan, and cook until golden on both sides.");
     }
@@ -64,6 +64,25 @@ class RecipeTest {
     assertNotNull(recipe.getIngredients());
     assertFalse(recipe.getIngredients().isBlank());
     assertNotNull(recipe.getInstructions());
-   }
+   
+    }
+
+    @Test
+    @DisplayName("Nastavitev negativnega ID-ja za preverjanje Long polja")
+    void testSetNegativeId() {
+        Long invalidId = -5L;
+
+        recipe.setId(invalidId);
+
+        assertEquals(invalidId, recipe.getId());
+        assertTrue(recipe.getId() < 0, "ID bi mogu bit pozitiven");
+    }
+
+    @Test
+    @DisplayName("Preverjanje, če so navodila dejansko NULL")
+    void testInstructionsSetToNull() {
+        recipe.setInstructions(null);
+        assertNull(recipe.getInstructions());
+    }
 
 }
