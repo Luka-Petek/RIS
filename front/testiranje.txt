@@ -1,0 +1,63 @@
+Poročilo o testiranju
+
+1. Opis testov
+
+V projektu smo razvili enote testov za razred Recipe, ki predstavlja recept. Testi so namenjeni preverjanju pravilnega delovanja getterjev in setterjev ter osnovnih pravilnih vrednosti.
+
+Testi:
+
+- testNameRecipe
+  Kaj preizkuša: Preveri, da je ime recepta pravilno nastavljeno
+  Zakaj je pomemben: Zagotavlja, da metoda setName pravilno shrani vrednost
+
+- testIngredientsRecipe
+  Kaj preizkuša: Preveri, da so sestavine nastavljene in vsebujejo določeno besedo (“eggs”)
+  Zakaj je pomemben: Preprečuje, da bi sestavine bile napačno nastavljene ali prazne
+
+- testInstructionsNotBlank
+  Kaj preizkuša: Preveri, da so navodila nastavljena in niso prazna
+  Zakaj je pomemben: Preprečuje, da bi recept imel prazna navodila, kar bi povzročilo napake pri prikazu ali uporabi
+
+- testBlankName
+  Kaj preizkuša: Preveri, da lahko ime recepta nastavimo na prazen niz
+  Zakaj je pomemben: Preverja robni primer, kjer uporabnik vpiše prazno ime
+
+- testIngredientsNotNull
+  Kaj preizkuša: Preveri, da sestavine niso null in niso prazne
+  Zakaj je pomemben: Zagotavlja, da je osnovni podatek o sestavinah vedno veljaven
+
+- testRecipeValidity
+  Kaj preizkuša: Preveri, da je recept veljaven, če so name in ingredients nastavljeni, instructions pa je lahko prazno
+  Zakaj je pomemben: Preverja kombinacijo osnovnih lastnosti za validnost recepta
+
+- testInstructionsCanBeNull
+  Kaj preizkuša: Preveri, da so navodila lahko null
+  Zakaj je pomemben: Omogoča robni primer, kjer navodil še ni, brez povzročanja napak
+
+2. Člani skupine in odgovornosti
+- Miha Kitak:
+  Odgovoren za implementacijo naslednjih testov in metode @BeforeEach:
+    - testIngredientsNotNull
+    - testRecipeValidity
+    - setUp (@BeforeEach)
+    - testNameRecipe
+    - testIngredientsRecipe
+
+- Miha Kostanjevec: 
+  Odgovoren za implementacijo naslednjih testov:
+    - testInstructionsNotBlank
+    - testBlankName
+
+3. Analiza uspešnosti testov
+
+- Vsi testi so bili uspešno izvedeni na lokalnem okolju.
+- Med razvojem testov smo odkrili naslednje težave:
+  1. Test testIngredientsNotNull je sprva napačno preverjal isBlank(), kar je povzročilo padanje testa. Težavo smo odpravili tako, da smo pravilno nastavili pogoj assertFalse(recipe.getIngredients().isBlank()).
+  2. V testu testInstructionsNotBlank smo odkrili, da je bila začetna vrednost navodil lahko prazna, kar je zahtevalo posodobitev @BeforeEach za polno besedilo navodil.
+- Po popravkih so vsi testi uspešno preizkusili funkcionalnost in potrdili pravilno delovanje getterjev, setterjev in robnih primerov.
+
+4. Zaključek
+
+- Testi zagotavljajo osnovno enotno testiranje razreda Recipe, preverjajo pravilnost vnosov, robne primere in kombinacije lastnosti.
+- S pomočjo testov smo odpravili manjše napake in potrdili stabilnost kode.
+- Priporočamo nadaljnje testiranje integracije s podatki iz baze ali API-ja, da bi pokrili dinamične podatke in realne scenarije uporabe.
