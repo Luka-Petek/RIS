@@ -17,7 +17,7 @@ class RecipeTest {
         recipe = new Recipe();
         recipe.setName("Pancakes");
         recipe.setIngredients("Flour, eggs, milk, sugar, butter, pinch of salt.");
-        recipe.setInstructions("Mix the batter, heat a pan, and cook until golden.");
+        recipe.setInstructions("Mix the batter, heat a pan, and cook until golden on both sides.");
     }
 
     @Test
@@ -29,10 +29,6 @@ class RecipeTest {
     void testIngredientsRecipe() {
         assertNotNull(recipe.getIngredients());
         assertTrue(recipe.getIngredients().contains("eggs"));
-    }
-
-    @Test
-    void testRecipeNoIntructions() {
         recipe.setInstructions(null);
         assertNull(recipe.getInstructions());
     }
@@ -51,4 +47,23 @@ class RecipeTest {
         assertEquals("", recipe.getName());
         assertTrue(recipe.getName().isEmpty());
     }
+
+    @Test
+    @DisplayName("Ingredients morajo biti nastavljeni in ne smejo biti prazni")
+    void testIngredientsNotNull() {
+        assertNotNull(recipe.getIngredients());
+        assertFalse(recipe.getIngredients().isBlank());
+    }
+
+   @Test
+   @DisplayName("Recipe je veljaven če so name in ingredients nastavljeni, instructions pa je lahko prazen")
+   void testRecipeValidity() {
+    recipe.setInstructions(""); 
+    assertNotNull(recipe.getName());
+    assertFalse(recipe.getName().isBlank());
+    assertNotNull(recipe.getIngredients());
+    assertFalse(recipe.getIngredients().isBlank());
+    assertNotNull(recipe.getInstructions());
+}
+
 }
