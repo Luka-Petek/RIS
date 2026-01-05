@@ -40,7 +40,7 @@ jobs:
           node-version: 20
 
       - name: Install frontend dependencies
-        working-directory: frontend
+        working-directory: front/src/
         run: npm start
 
   test-backend:
@@ -53,7 +53,7 @@ jobs:
         image: mysql:8
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: testdb
+          MYSQL_DATABASE: RIS
         ports:
           - 3306:3306
         options: >-
