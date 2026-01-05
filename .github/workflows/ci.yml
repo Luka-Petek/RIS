@@ -40,8 +40,12 @@ jobs:
           node-version: 20
 
       - name: Install frontend dependencies
-        working-directory: front/src/
-        run: npm start
+        working-directory: front/src
+        run: npm install
+
+      - name: Build frontend
+        working-directory: front/src
+        run: npm run build
 
   test-backend:
     name: Test Backend
