@@ -36,3 +36,45 @@
     transform: rotate(360deg);
   }
 }
+
+/*procentualno racunanje*/
+
+.calorie-box-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.calorie-box {
+    width: 70px;
+    height: 70px;
+    border: 2px solid #198754;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
+.calorie-fill {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #198754;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: height 0.4s ease;
+}
+
+.calorie-percent {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.calorie-text {
+    font-size: 14px;
+    font-weight: 500;
+}

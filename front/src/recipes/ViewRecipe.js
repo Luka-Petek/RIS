@@ -3,6 +3,16 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { jsPDF } from "jspdf";
 
+const DAILY_CALORIES = 2000;
+
+//racunanje TRENUTNIH kalorij
+const extractCalories = (instructions) => {
+    if (!instructions) return 0;
+
+    const match = instructions.match(/(\d+)\s*cal/i);
+    return match ? parseInt(match[1], 10) : 0;
+};
+
 export default function ViewRecipe() {
     const [recipe, setRecipe] = useState({
         name: "",
@@ -12,7 +22,7 @@ export default function ViewRecipe() {
 
     const [persons, setPersons] = useState(1);
 
-    const {id} = useParams();
+    const { id } = useParams();
 
     useEffect(() => {
         loadRecipe();
@@ -22,6 +32,15 @@ export default function ViewRecipe() {
         const result = await axios.get(`http://localhost:8081/recipe/${id}`);
         setRecipe(result.data);
     };
+
+    const baseCalories = extractCalories(recipe.instructions);
+    const totalCalories = baseCalories * persons;
+
+    //racunanje % TRENUTNIH kalorij
+    const caloriePercentage = Math.min(
+        Math.round((totalCalories / DAILY_CALORIES) * 100),
+        100
+    );
 
     const downloadPDF = () => {
         const doc = new jsPDF();
@@ -34,13 +53,16 @@ export default function ViewRecipe() {
 
         doc.setFontSize(14);
         doc.text("Ingredients:", margin, 40);
-        const ingredientsLines = doc.splitTextToSize(scaleIngredients(recipe.ingredients, persons), maxWidth - 5);
+        const ingredientsLines = doc.splitTextToSize(
+            scaleIngredients(recipe.ingredients, persons),
+            maxWidth - 5
+        );
         doc.text(ingredientsLines, margin + 5, 50);
 
         const instructionsStartY = 50 + ingredientsLines.length * 7;
         doc.text("Instructions:", margin, instructionsStartY + 10);
+
         const instructionsLines = doc.splitTextToSize(
-            //stremenu ker klicem funkcijo za dinamicno posodabljanje
             scaleCalories(recipe.instructions, persons),
             maxWidth - 5
         );
@@ -50,14 +72,11 @@ export default function ViewRecipe() {
     };
 
     const scaleIngredients = (sestavine, st) => {
-        if (!sestavine) {
-            return "";
-        }
+        if (!sestavine) return "";
 
         return sestavine
-            .split("\n")    //vsak el da v svojo vrstico
+            .split("\n")
             .map(line =>
-                //iz sestavin filtrira stevila (\d+), decimalna ((\.\d+)?), "g" global, da najde vse st.
                 line.replace(/(\d+(\.\d+)?)/g, match =>
                     (parseFloat(match) * st).toString()
                 )
@@ -65,11 +84,9 @@ export default function ViewRecipe() {
             .join("\n");
     };
 
-    //ujemanje kalrij in vecanje... pomagas si ker je vedno zraven "cal"... npr "600cal"
+    // skaliranje kalorij glede na število oseb
     const scaleCalories = (instructions, persons) => {
-        if (!instructions) {
-            return "";
-        }
+        if (!instructions) return "";
 
         return instructions.replace(/(\d+)\s*cal/i, (match, calories) => {
             const scaledCalories = parseInt(calories, 10) * persons;
@@ -114,10 +131,13 @@ export default function ViewRecipe() {
                                 </li>
                                 <li className="list-group-item">
                                     <b>Ingredients:</b>
-                                    <pre className="mt-2">{scaleIngredients(recipe.ingredients, persons)}</pre>
+                                    <pre className="mt-2">
+                                        {scaleIngredients(recipe.ingredients, persons)}
+                                    </pre>
                                 </li>
                                 <li className="list-group-item">
-                                    <b>Instructions:</b> {scaleCalories(recipe.instructions, persons)}
+                                    <b>Instructions:</b>{" "}
+                                    {scaleCalories(recipe.instructions, persons)}
                                 </li>
                             </ul>
                         </div>
@@ -130,6 +150,23 @@ export default function ViewRecipe() {
                     <Link className="btn btn-primary my-2" to={"/"}>
                         Back to Home
                     </Link>
+
+                    <div className="calorie-box-wrapper">
+                        <div className="calorie-box">
+                            <div
+                                className="calorie-fill"
+                                style={{ height: `${caloriePercentage}%` }}
+                            >
+                                <span className="calorie-percent">
+                                    {caloriePercentage}%
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="calorie-text">
+                            {totalCalories} kcal of daily intake
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
