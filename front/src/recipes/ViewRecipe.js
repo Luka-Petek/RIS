@@ -39,7 +39,11 @@ export default function ViewRecipe() {
 
         const instructionsStartY = 50 + ingredientsLines.length * 7;
         doc.text("Instructions:", margin, instructionsStartY + 10);
-        const instructionsLines = doc.splitTextToSize(recipe.instructions, maxWidth - 5);
+        const instructionsLines = doc.splitTextToSize(
+            //stremenu ker klicem funkcijo za dinamicno posodabljanje
+            scaleCalories(recipe.instructions, persons),
+            maxWidth - 5
+        );
         doc.text(instructionsLines, margin + 5, instructionsStartY + 20);
 
         doc.save(`${recipe.name}.pdf`);
@@ -59,6 +63,18 @@ export default function ViewRecipe() {
                 )
             )
             .join("\n");
+    };
+
+    //ujemanje kalrij in vecanje... pomagas si ker je vedno zraven "cal"... npr "600cal"
+    const scaleCalories = (instructions, persons) => {
+        if (!instructions) {
+            return "";
+        }
+
+        return instructions.replace(/(\d+)\s*cal/i, (match, calories) => {
+            const scaledCalories = parseInt(calories, 10) * persons;
+            return `${scaledCalories}cal`;
+        });
     };
 
     const increasePersons = () => {
@@ -101,7 +117,7 @@ export default function ViewRecipe() {
                                     <pre className="mt-2">{scaleIngredients(recipe.ingredients, persons)}</pre>
                                 </li>
                                 <li className="list-group-item">
-                                    <b>Instructions:</b> {recipe.instructions}
+                                    <b>Instructions:</b> {scaleCalories(recipe.instructions, persons)}
                                 </li>
                             </ul>
                         </div>
