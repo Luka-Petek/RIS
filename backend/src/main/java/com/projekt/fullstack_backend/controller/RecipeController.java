@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +32,11 @@ public class RecipeController {
     @GetMapping("/recipes")
     public List<Recipe> getAllRecipes() {
         return recipeRepository.findAll();  
+    }
+
+    @GetMapping("/recipes/search")
+    public List<Recipe> searchRecipes(@RequestParam String name) {
+        return recipeRepository.findByNameContainingIgnoreCase(name);
     }
 
     @GetMapping("/recipe/{id}")

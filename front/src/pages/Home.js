@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 export default function Home() {
   const [recipes, setRecipes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const recipesPerPage = 5;
 
   useEffect(() => {
@@ -14,6 +15,24 @@ export default function Home() {
   const loadRecipes = async () => {
     const result = await axios.get("http://localhost:8081/recipes");
     setRecipes(result.data);
+  };
+
+  const searchRecipes = async () => {
+    if (!searchQuery.trim()) {
+      loadRecipes();
+      return;
+    }
+
+    try {
+      const result = await axios.get(
+        `http://localhost:8081/recipes/search?name=${encodeURIComponent(searchQuery)}`
+      );
+      setRecipes(result.data);
+      setCurrentPage(1);
+    } catch (error) {
+      console.error("Search error:", error);
+      setRecipes([]);
+    }
   };
 
   const deleteRecipe = async (id) => {
@@ -54,6 +73,24 @@ export default function Home() {
     <div className="container">
       <div className="py-4">
         <h2>Recipes List</h2>
+
+    <div className="d-flex justify-content-center my-4" style={{ width: "100%" }}>
+       <div className="input-group" style={{ maxWidth: "400px" }}>
+        <input
+         type="text"
+         className="form-control"
+         placeholder="Search recipe by name"
+         value={searchQuery}
+         onChange={(e) => setSearchQuery(e.target.value)}
+         onKeyDown={(e) => e.key === "Enter" && searchRecipes()}
+        />
+        <button className="btn btn-primary" onClick={searchRecipes}>
+         Search
+        </button>
+      </div>
+    </div>
+
+
         <table className="table border shadow">
           <thead>
             <tr>
